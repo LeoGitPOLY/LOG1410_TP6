@@ -16,8 +16,8 @@ public:
 	CountArtifactsVisitor();
 	virtual ~CountArtifactsVisitor() = default;
 
-	virtual void processInstance(class Instance& instance);
-	virtual void processArtifact(class Artifact& artifact);
+	virtual void processInstance(class Instance& instance) override;
+	virtual void processArtifact(class Artifact& artifact) override;
 
 	virtual int getNbArtifacts() const { return m_nbArtifacts; };
 

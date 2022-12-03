@@ -20,7 +20,7 @@ public:
 
 	virtual Instance* clone() const;
 
-	virtual void accept(class AbsInstanceVisitor& v);
+	virtual void accept(AbsInstanceVisitor& v);
 
 	virtual InstanceComponentIterator begin() override;
 	virtual InstanceComponentIterator_const cbegin() const override;

@@ -10,6 +10,7 @@
 #include <string>
 #include "Directory.h"
 #include "AbsDocument.h"
+#include "AddAnnotationVisitor.h"
 
 int Directory::m_indent = 0;
 
@@ -21,7 +22,7 @@ Directory::Directory(std::string name)
 Directory::Directory(const Directory& mdd)
 	: AbsDirectoryComponent(mdd.m_name)
 {
-	for (auto it = cbegin(); it != cend(); it++)
+	for (auto it = mdd.cbegin(); it != mdd.cend(); it++)
 		addDirectoryComponent(*it);
 
 }
@@ -76,8 +77,14 @@ const AbsDocument* Directory::findDocument(std::string productName) const
 	const AbsDocument* foundDocument = nullptr;
 
 	for (auto it = cbegin(); it != cend(); it++)
-		if (it->getName() == productName)
+		if (dynamic_cast<Directory*> (it->clone()))
+		{
+			foundDocument = it->findDocument(productName);
+		}
+		else if (it->getName() == productName)
+		{
 			foundDocument = dynamic_cast<AbsDocument*>(it->clone());
+		}
 
 	return foundDocument;
 }
@@ -102,4 +109,9 @@ std::ostream& Directory::indent(std::ostream& o) const
 	for (int i = 0; i < m_indent; ++i)
 		o << '\t';
 	return o;
+}
+
+AbsDirectoryComponent& Directory::accept(AddAnnotationVisitor& v) const
+{
+	return v.processDirectory(*this);
 }

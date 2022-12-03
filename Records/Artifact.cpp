@@ -8,6 +8,7 @@
 ****************************************************************************/
 
 #include "Artifact.h"
+#include "AbsInstanceVisitor.h"
 
 Artifact::Artifact(std::string name, const AbsDirectoryComponent& document)
 	: AbsInstanceComponent(name), m_document(document)
@@ -34,3 +35,7 @@ std::ostream& Artifact::printToStream(std::ostream& o) const
 	return o;
 }
 
+void Artifact::accept(class AbsInstanceVisitor& v)
+{
+	v.processArtifact(*this);
+}

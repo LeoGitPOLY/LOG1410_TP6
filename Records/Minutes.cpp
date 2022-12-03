@@ -9,6 +9,7 @@
 
 #include <string>
 #include "Minutes.h"
+#include "AddAnnotationVisitor.h"
 
 Minutes::Minutes(std::string name, std::string dateTime)
 	: AbsDocument(name, dateTime)
@@ -18,4 +19,9 @@ Minutes::Minutes(std::string name, std::string dateTime)
 Minutes* Minutes::clone(void) const
 {
 	return new Minutes(*this);
+}
+
+AbsDirectoryComponent& Minutes::accept(AddAnnotationVisitor& v) const
+{
+	return v.processMinutes(*this);
 }

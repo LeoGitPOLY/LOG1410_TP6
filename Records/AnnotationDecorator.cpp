@@ -22,12 +22,12 @@ AnnotationDecorator::AnnotationDecorator(const AnnotationDecorator& mdd)
 
 AnnotationDecorator* AnnotationDecorator::clone(void) const
 {
-	// À COMPLÉTER
+	return new AnnotationDecorator(*this);
 }
 
 AbsDirectoryComponent& AnnotationDecorator::accept(AddAnnotationVisitor& v) const
 {
-	// À COMPLÉTER;
+	return v.processAnnotationDecorator(*this);
 }
 
 AbsDirectoryComponent& AnnotationDecorator::addDirectoryComponent(const AbsDirectoryComponent& member)

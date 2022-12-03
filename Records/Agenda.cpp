@@ -9,6 +9,7 @@
 
 #include <string>
 #include "Agenda.h"
+#include "AddAnnotationVisitor.h"
 
 Agenda::Agenda(std::string name, std::string dateTime)
 	: AbsDocument(name, dateTime)
@@ -18,4 +19,9 @@ Agenda::Agenda(std::string name, std::string dateTime)
 Agenda* Agenda::clone(void) const
 {
 	return new Agenda(*this);
+}
+
+AbsDirectoryComponent& Agenda::accept(AddAnnotationVisitor& v) const
+{
+	return v.processAgenda(*this);
 }
