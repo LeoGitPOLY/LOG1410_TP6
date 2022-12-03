@@ -74,19 +74,17 @@ void Directory::deleteAllComponents(void)
 
 const AbsDocument* Directory::findDocument(std::string productName) const
 {
-	const AbsDocument* foundDocument = nullptr;
-
-	for (auto it = cbegin(); it != cend(); it++)
-		if (dynamic_cast<Directory*> (it->clone()))
-		{
-			foundDocument = it->findDocument(productName);
+	for (auto& document : m_documents)
+		if (auto element = dynamic_cast<AbsDocument*>(document.get())) {
+			if (productName == element->getName())
+				return element;
 		}
-		else if (it->getName() == productName)
-		{
-			foundDocument = dynamic_cast<AbsDocument*>(it->clone());
+		else {
+			if (auto element = document->findDocument(productName))
+				return element;
 		}
 
-	return foundDocument;
+	return nullptr;
 }
 
 std::ostream& Directory::printToStream(std::ostream& o) const
